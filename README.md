@@ -1,3 +1,6 @@
 # Banking-Project
 This project is was done by group work
-It is fully developed and well documentation
+It is fully developed and well documentation:
+  + UML
+  + Menmory layout
+  + Pseudocode  
