@@ -1,0 +1,11 @@
+duck daffy      5555  4500  500     0   0    0  0    0  0  0    0
+donkey darrell  6666    10  100     0   0 1000  0    0  0  0    0
+duck donald     2222 10000  500     0   0    0  0    0  0  0    0
+witch wicked    7000  5000  300     0   0  500  0    0  0  0    0
+pig porky       6000 30000 1000     0   0    0  0    0  0  0    0
+mouse mickey    1234 20500 1000     0   0    0  0  500  0  0    0
+spider sammy    1111  4000  500     0   0    0  0    0  0  0    0
+frog freddie    2500 38000 3000     0   0 2000  0    0  0  0    0
+lizard larry    8888  4500 2000     0   0    0  0    0  0  0    0
+mouse minnie    3000 35000 2000 50000 400    0  0 4000  0  0 3000
+bear bertha     4200  8000 1000     0   0    0  0    0  0  0    0
