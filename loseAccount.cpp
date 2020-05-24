@@ -75,17 +75,10 @@ bool LOSEAccount::isBalanceZero() const {
 // returns a copy of the LOSEAccount object
 LOSEAccount& LOSEAccount::operator=(const LOSEAccount& acc) {
 
-    //check for negative values
-    if (this->currentBalance < 0 || acc.currentBalance < 0) {
-        //what can we do about this case?
-    }
-
-    LOSEAccount temp;
-
-    //copies data over
-    temp.setStartBalance(acc.currentBalance);
-    temp.adjustBalance(acc.currentBalance);
-    return temp;
+    // assign other account into current account
+    this->startBalance = acc.startBalance;
+    this->currentBalance = acc.currentBalance;
+    return *this;
 }
 
 //----------------------------------------------------------------------------
