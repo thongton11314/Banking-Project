@@ -46,7 +46,7 @@ bool LOSEAccount::adjustBalance(int val) {
 int LOSEAccount::getStartBalance() const {
 
     //retrieve
-    return currentBalance;
+    return startBalance;
 }
 
 //----------------------------------------------------------------------------
@@ -83,9 +83,8 @@ LOSEAccount& LOSEAccount::operator=(const LOSEAccount& acc) {
     LOSEAccount temp;
 
     //copies data over
-    temp.setStartBalance(acc.getStartBalance());
-    temp.adjustBalance(acc.getCurrentBalance());
-
+    temp.setStartBalance(acc.currentBalance);
+    temp.adjustBalance(acc.currentBalance);
     return temp;
 }
 
@@ -95,7 +94,7 @@ LOSEAccount& LOSEAccount::operator=(const LOSEAccount& acc) {
 bool LOSEAccount::operator<(const LOSEAccount& acc) const {
 
     //compare value of currentBalance
-    if (this->currentBalance < acc.getCurrentBalance()) {
+    if (this->currentBalance < acc.currentBalance) {
         return true;
     }
     return false;
@@ -107,7 +106,7 @@ bool LOSEAccount::operator<(const LOSEAccount& acc) const {
 bool LOSEAccount::operator<=(const LOSEAccount& acc) const {
 
     // compare value of currentBalance
-    if (this->currentBalance <= acc.getCurrentBalance()) {
+    if (this->currentBalance <= acc.currentBalance) {
         return true;
     }
     return false;
@@ -119,7 +118,7 @@ bool LOSEAccount::operator<=(const LOSEAccount& acc) const {
 bool LOSEAccount::operator>(const LOSEAccount& acc) const {
 
     // compare value of currentBalance
-    if (this->currentBalance > acc.getCurrentBalance()) {
+    if (this->currentBalance > acc.currentBalance) {
         return true;
     }
     return false;
@@ -131,7 +130,7 @@ bool LOSEAccount::operator>(const LOSEAccount& acc) const {
 bool LOSEAccount::operator>=(const LOSEAccount& acc) const {
 
     // compare value of currentBalance
-    if (this->currentBalance >= acc.getCurrentBalance()) {
+    if (this->currentBalance >= acc.currentBalance) {
         return true;
     }
     return false;
@@ -141,7 +140,7 @@ bool LOSEAccount::operator>=(const LOSEAccount& acc) const {
 // operator==
 // == defined by value of currentBalance
 bool LOSEAccount::operator==(const LOSEAccount& acc) const {
-    if (this->currentBalance == acc.getCurrentBalance()) {
+    if (this->currentBalance == acc.currentBalance) {
         return true;
     }
     return false;
@@ -152,9 +151,8 @@ bool LOSEAccount::operator==(const LOSEAccount& acc) const {
 // != defined by value of currentBalance
 bool LOSEAccount::operator!=(const LOSEAccount& acc) const {
 
-    if (*this != acc) {
+    if (this->currentBalance != acc.currentBalance) {
         return true;
     }
-
     return false;
 }
