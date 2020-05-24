@@ -4,25 +4,22 @@
 // constructor
 // constructs things
 LOSEAccount::LOSEAccount() {
-    
-    //empty
+    currentBalance = 0;
+    startBalance = 0;
 }
 
 //----------------------------------------------------------------------------
 // destructor
 // used after each function to deallocate memory
-LOSEAccount::~LOSEAccount() {
-    
-    //empty
-}
+LOSEAccount::~LOSEAccount() {}
 
 //----------------------------------------------------------------------------
 // setStartBalance
 // sets the starting value of an account
 bool LOSEAccount::setStartBalance(int val) {
-    
+
     //controls for negative values
-    if(val < 0) {
+    if (val < 0) {
         startBalance = 0;
         return false;
     }
@@ -34,7 +31,7 @@ bool LOSEAccount::setStartBalance(int val) {
 // adjustBalance
 // adjusts the currentBalance value
 bool LOSEAccount::adjustBalance(int val) {
-    
+
     //controls for negative output
     if ((currentBalance + val) < 0) {
         return false;
@@ -47,7 +44,7 @@ bool LOSEAccount::adjustBalance(int val) {
 // getStartBalance
 // retrieves the starting value of an account
 int LOSEAccount::getStartBalance() const {
-    
+
     //retrieve
     return currentBalance;
 }
@@ -56,7 +53,7 @@ int LOSEAccount::getStartBalance() const {
 // getCurrentBalance
 // retrieves the current value of an account
 int LOSEAccount::getCurrentBalance() const {
-    
+
     //retrieve
     return startBalance;
 }
@@ -65,9 +62,9 @@ int LOSEAccount::getCurrentBalance() const {
 // isBalanceZero
 // checks if current balance is empty
 bool LOSEAccount::isBalanceZero() const {
-    
+
     //check for a zero balance
-    if(currentBalance == 0) {
+    if (currentBalance == 0) {
         return true;
     }
     return false;
@@ -77,9 +74,9 @@ bool LOSEAccount::isBalanceZero() const {
 // assignment operator
 // returns a copy of the LOSEAccount object
 LOSEAccount& LOSEAccount::operator=(const LOSEAccount& acc) {
-    
+
     //check for negative values
-    if(this->currentBalance < 0 || acc.currentBalance < 0) {
+    if (this->currentBalance < 0 || acc.currentBalance < 0) {
         //what can we do about this case?
     }
 
@@ -96,9 +93,9 @@ LOSEAccount& LOSEAccount::operator=(const LOSEAccount& acc) {
 // operator<
 // < defined by value of currentBalance
 bool LOSEAccount::operator<(const LOSEAccount& acc) const {
-    
+
     //compare value of currentBalance
-    if (this->currentBalance < acc.getCurrentBalance()){
+    if (this->currentBalance < acc.getCurrentBalance()) {
         return true;
     }
     return false;
@@ -108,7 +105,7 @@ bool LOSEAccount::operator<(const LOSEAccount& acc) const {
 // operator<=
 // <= defined by value of currentBalance
 bool LOSEAccount::operator<=(const LOSEAccount& acc) const {
-    
+
     // compare value of currentBalance
     if (this->currentBalance <= acc.getCurrentBalance()) {
         return true;
@@ -116,12 +113,11 @@ bool LOSEAccount::operator<=(const LOSEAccount& acc) const {
     return false;
 }
 
-
 //----------------------------------------------------------------------------
 // operator>
 // > defined by value of currentBalance
 bool LOSEAccount::operator>(const LOSEAccount& acc) const {
-    
+
     // compare value of currentBalance
     if (this->currentBalance > acc.getCurrentBalance()) {
         return true;
@@ -133,14 +129,13 @@ bool LOSEAccount::operator>(const LOSEAccount& acc) const {
 // operator>=
 // >= defined by value of currentBalance
 bool LOSEAccount::operator>=(const LOSEAccount& acc) const {
-    
+
     // compare value of currentBalance
     if (this->currentBalance >= acc.getCurrentBalance()) {
         return true;
     }
     return false;
 }
-
 
 //----------------------------------------------------------------------------
 // operator==
@@ -156,10 +151,10 @@ bool LOSEAccount::operator==(const LOSEAccount& acc) const {
 // operator!=
 // != defined by value of currentBalance
 bool LOSEAccount::operator!=(const LOSEAccount& acc) const {
-    
-    // why dosn't this work
-    if (this != acc) {
+
+    if (*this != acc) {
         return true;
     }
+
     return false;
 }
