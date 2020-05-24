@@ -1,3 +1,4 @@
+#include <iostream>
 #include "manager.h"
 
 // build client container
@@ -61,122 +62,184 @@ void Manager::processTransactions()
     if (transactionContainer.isEmpty())
         return;
 
-    Transaction* ptrTran;
+    // pointer that used for holding data
+    Transaction* ptrTransaction;
+
+    // get data from container
+    while (transactionContainer.dequeue(ptrTransaction)) {
+
+        switch (ptrTransaction->getTranType()) {
+            
+            // transaction type move
+            case 'M':
+                moveHelper(ptrTransaction);
+
+            // transaction type deposit
+            case 'D':
+                depositHelper(ptrTransaction);
+            
+            // transaction type withdraw
+            case 'W':
+                withdrawHelper(ptrTransaction);
+            
+            // error transaction
+            default:
+                invalidTransactionContainer.enqueue(ptrTransaction);
+        }
+    }
+    
+    // delete pointer
+    delete ptrTransaction;
+    ptrTransaction = nullptr;
+}
+
+// this function will be called in processTransactions function
+void Manager::moveHelper(Transaction *ptrTran) {
+   
+    // temporary pointer point to transaction data
     Client* ptrClientOne;
     Client* ptrClientTwo;
 
-    // temporary target
-    Client targetOne;   // used for deposit and withdraw
-    Client targetTwo;   // used for move in case
+    // temporary target to check
+    Client targetOne;
+    Client targetTwo;
 
-    while (transactionContainer.dequeue(ptrTran)) {
+    // transaction type of move
+    if (ptrTran->getTranType() == 'M') {
 
-        // transaction type of move
-        if (ptrTran->getTranType() == 'M') {        
+        // initialize temporary target
+        targetOne.setClientId(ptrTran->getClientIDOne());
+        targetTwo.setClientId(ptrTran->getClientIDTwo());
 
-            // initialize temporary target
-            targetOne.setClientId(ptrTran->getClientIDOne());
-            targetTwo.setClientId(ptrTran->getClientIDTwo());
-            
-            // check deliver target
-            bool checkOne = clientContainer.retrieve(targetOne, ptrClientOne);
-            
-            // check receiver target
-            bool checkTwo = clientContainer.retrieve(targetTwo, ptrClientTwo);
+        // check deliver target
+        bool checkOne = clientContainer.retrieve(targetOne, ptrClientOne);
 
-            // perfrom transaction
-            if (checkOne && checkTwo) {
+        // check receiver target
+        bool checkTwo = clientContainer.retrieve(targetTwo, ptrClientTwo);
 
-                // withdraw from deliver account
-                ptrClientOne->withdraw(ptrTran->getAccIDOne()
-                    , ptrTran->getAmount());
+        // perfrom transaction
+        if (checkOne && checkTwo) {
 
-                // deposit to receiver account
-                ptrClientTwo->deposit(ptrTran->getAccIDTwo()
-                    , ptrTran->getAmount());
+            // withdraw from deliver account
+            ptrClientOne->withdraw(ptrTran->getAccIDOne()
+                , ptrTran->getAmount());
 
-                // add history transaction into deliver account
-                ptrClientOne->addHistory(*ptrTran);
-            }
+            // deposit to receiver account
+            ptrClientTwo->deposit(ptrTran->getAccIDTwo()
+                , ptrTran->getAmount());
 
-            // error performing tracsaction
-            else {
-
-                // add unidentified transaction
-                // add code here
-                /////////////////////////////////////////
-            }
-            
+            // add history transaction into deliver account
+            ptrClientOne->addHistory(*ptrTran);
         }
 
-        // transaction type deposit
-        else if (ptrTran->getTranType() == 'D') {
-
-            // initialize temporary target
-            targetOne.setClientId(ptrTran->getClientIDOne());
-            
-            // check target in container
-            bool check = clientContainer.retrieve(targetOne, ptrClientOne);
-
-            // perform transaction
-            if (check) {
-                ptrClientOne->deposit(ptrTran->getAccIDOne(), 
-                    ptrTran->getAmount());
-            }
-
-            // error performing transaction
-            else {
-
-                // add unidentified transaction
-                // add code here
-                /////////////////////////////////////////
-            }
-        }
-
-        // transaction type withdraw
-        else if (ptrTran->getTranType() == 'W') {
-
-            // initialize temporary target
-            targetOne.setClientId(ptrTran->getClientIDOne());
-
-            // check target in container
-            bool check = clientContainer.retrieve(targetOne, ptrClientOne);
-            
-            // perfrom transaction
-            if (check) {
-                ptrClientOne->deposit(ptrTran->getAccIDOne(),
-                    ptrTran->getAmount());
-            }
-
-            // error performing transaction
-            else {
-
-                // add unidentified transaction
-                // add code here
-                /////////////////////////////////////////
-            }
-        }
-
-        // invalid transaction type
+        // error tracsaction
         else {
-
-           // add unidentified transaction
-           // add code here
-           /////////////////////////////////////////
+            invalidTransactionContainer.enqueue(ptrTran);
         }
-
-        // delete pointer
-        delete ptrClientOne;
-        ptrClientOne = nullptr;
-        delete ptrClientTwo;
-        ptrClientTwo = nullptr;
     }
+
+    // delete pointers
+    delete ptrClientOne;
+    delete ptrClientTwo;
+    ptrClientOne = ptrClientTwo = nullptr;
+}
+
+// this function will be called in processTransactions function
+void Manager::depositHelper(Transaction *ptrTran) {
+
+    // pointer that hold a client data
+    Client* ptrClient;
+
+    // temporary target to check
+    Client target;
+
+    // set temporary target data
+    target.setClientId(ptrTran->getClientIDOne());
+
+    // check target in container
+    bool check = clientContainer.retrieve(target, ptrClient);
+
+    // perform transaction
+    if (check) {
+        ptrClient->deposit(ptrTran->getAccIDOne()
+            , ptrTran->getAmount());
+    }
+
+    // error transaction
+    else {
+        invalidTransactionContainer.enqueue(ptrTran);
+    }
+
+    // delete pointer
+    delete ptrClient;
+    ptrClient = nullptr;
+}
+
+// this function will be called in processTransactions function
+void Manager::withdrawHelper(Transaction *ptrTran) {
+    
+    // pointer that hold a client data
+    Client* ptrClient;
+
+    // temporary target to check
+    Client target;
+
+    // set temporary target data
+    target.setClientId(ptrTran->getClientIDOne());
+
+    // check target in container
+    bool check = clientContainer.retrieve(target, ptrClient);
+
+    // perform transaction
+    if (check) {
+        ptrClient->withdraw(ptrTran->getAccIDOne()
+            , ptrTran->getAmount());
+    }
+
+    // error transaction
+    else {
+        invalidTransactionContainer.enqueue(ptrTran);
+    }
+
+    // delete pointer
+    delete ptrClient;
+    ptrClient = nullptr;
 }
 
 // display transactions end of the day
 void Manager::displayReport() const
 {
-    // get each client from client container
+    // error transaction
+    displayError();
 
-    // display its transactions
+    // report summary
+    displaySummary();
+}
+
+// display invalid transaction
+void Manager::invalidTransactions() {
+
+    // early exist
+    if (invalidTransactionContainer.isEmpty())
+        return;
+
+    // pointer that hold an invalid transaction
+    Transaction* ptrTransaction;
+
+    // get invalid transaction
+    while (invalidTransactionContainer.dequeue(ptrTransaction)) {
+        
+        // do something
+        ///////////////////////////////////////////
+
+        // delete ptr
+        delete ptrTransaction;
+        ptrTransaction = nullptr;
+    }
+}
+
+// display account summary
+void Manager::accountSummary() {
+
+    // add code here
 }
