@@ -1,28 +1,32 @@
 #include <iostream>
-#include "manager.h"
+#include <assert.h>
+#include "loseAccount.h"
 
 using namespace std;
+void testLOSEAccountClass();
 
-//---------------------------------------------------------------------------
-// Main
 int main() {
+    testLOSEAccountClass();
+}
 
-    // instantiate manager class
-    Manager bank;
+void testLOSEAccountClass() {
+    LOSEAccount account1;
+    assert(account1.setStartBalance(100));
+    assert(account1.isBalanceZero() != 0);
+    assert(account1.getStartBalance() == 100);
+    assert(account1.getCurrentBalance() == 100);
+    assert(account1.adjustBalance(100) == true);
+    assert(account1.adjustBalance(-500) == false);
 
-    // instantiate file stream for setting data
-    ifstream clientFile("lab5data.txt"), 
-        transactionFile("lab5command.txt");
-    
-    // reads all client information from text file
-    bank.buildClients(clientFile);
-
-    // reads all client command from text file
-    bank.buildTransactions(transactionFile);
-
-    // process all transaction from file
-    bank.processTransactions();
-
-    //display history of client
-    bank.displayReport();
+    // Test operator
+    LOSEAccount account2;
+    assert(account2 < account1);
+    assert(account2 <= account1);
+    assert(account2 <= account2);
+    assert(account1 > account2);
+    assert(account1 >= account2);
+    assert(account1 >= account1);
+    assert(account2 != account1);
+    assert(account2 == account2);
+    cout << "Test LOSE account pass, end test." << endl;
 }
