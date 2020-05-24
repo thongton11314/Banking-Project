@@ -16,11 +16,12 @@ class LOSEAccount {
 
 public:
     LOSEAccount();
-    void setStartBalance(int);       // set start ballance
-    void adjustBalance(int);         // use for adjust current balance
-    int getStartBlance() const;      // get start balance
+    ~LOSEAccount();
+    bool setStartBalance(int);       // set start ballance
+    bool adjustBalance(int);         // use for adjust current balance
+    int getStartBalance() const;      // get start balance
     int getCurrentBalance() const;   // return balance of the account
-    bool isBanlanceZero() const;     // check if the account has no money
+    bool isBalanceZero() const;     // check if the account has no money
 
     // copy operator
     LOSEAccount& operator=(const LOSEAccount&);
@@ -35,8 +36,12 @@ public:
 
 private:
     int currentBalance;
-    int startBallance;
+    int startBalance;
 };
 
 #endif // !_LOSE_ACCOUNT_
+
+class loseAccount
+{
+};
 
