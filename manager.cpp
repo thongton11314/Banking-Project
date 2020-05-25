@@ -95,53 +95,53 @@ void Manager::processTransactions()
 
 // this function will be called in processTransactions function
 void Manager::moveHelper(Transaction *ptrTran) {
-   
-    // temporary pointer point to transaction data
-    Client* ptrClientOne;
-    Client* ptrClientTwo;
-
-    // temporary target to check
-    Client targetOne;
-    Client targetTwo;
 
     // transaction type of move
     if (ptrTran->getTranType() == 'M') {
 
+        // temporary pointer point to transaction data
+        Client* ptrClientOne;
+        Client* ptrClientTwo;
+
+        // temporary target to check
+        Client delTarget;
+        Client recTarget;
+
         // initialize temporary target
-        targetOne.setClientId(ptrTran->getClientIDOne());
-        targetTwo.setClientId(ptrTran->getClientIDTwo());
+        delTarget.setId(ptrTran->getDeliveredClientID());
+        recTarget.setId(ptrTran->getReceivedClientID());
 
         // check deliver target
-        bool checkOne = clientContainer.retrieve(targetOne, ptrClientOne);
+        bool checkOne = clientContainer.retrieve(delTarget, ptrClientOne);
 
         // check receiver target
-        bool checkTwo = clientContainer.retrieve(targetTwo, ptrClientTwo);
+        bool checkTwo = clientContainer.retrieve(recTarget, ptrClientTwo);
 
         // perfrom transaction
         if (checkOne && checkTwo) {
 
             // withdraw from deliver account
-            ptrClientOne->withdraw(ptrTran->getAccIDOne()
+            ptrClientOne->withdraw(ptrTran->getDeliveredAccID()
                 , ptrTran->getAmount());
 
             // deposit to receiver account
-            ptrClientTwo->deposit(ptrTran->getAccIDTwo()
+            ptrClientTwo->deposit(ptrTran->getReceivedAccID()
                 , ptrTran->getAmount());
 
             // add history transaction into deliver account
-            ptrClientOne->addHistory(*ptrTran);
+            //ptrClientOne->addHistory(*ptrTran);
         }
 
         // error tracsaction
         else {
             invalidTransactionContainer.enqueue(ptrTran);
         }
-    }
 
-    // delete pointers
-    delete ptrClientOne;
-    delete ptrClientTwo;
-    ptrClientOne = ptrClientTwo = nullptr;
+        // delete pointers
+        delete ptrClientOne;
+        delete ptrClientTwo;
+        ptrClientOne = ptrClientTwo = nullptr;
+    }
 }
 
 // this function will be called in processTransactions function
@@ -154,14 +154,14 @@ void Manager::depositHelper(Transaction *ptrTran) {
     Client target;
 
     // set temporary target data
-    target.setClientId(ptrTran->getClientIDOne());
+    target.setId(ptrTran->getDeliveredAccID());
 
     // check target in container
     bool check = clientContainer.retrieve(target, ptrClient);
 
     // perform transaction
     if (check) {
-        ptrClient->deposit(ptrTran->getAccIDOne()
+        ptrClient->deposit(ptrTran->getReceivedAccID()
             , ptrTran->getAmount());
     }
 
@@ -185,14 +185,14 @@ void Manager::withdrawHelper(Transaction *ptrTran) {
     Client target;
 
     // set temporary target data
-    target.setClientId(ptrTran->getClientIDOne());
+    target.setId(ptrTran->getDeliveredAccID());
 
     // check target in container
     bool check = clientContainer.retrieve(target, ptrClient);
 
     // perform transaction
     if (check) {
-        ptrClient->withdraw(ptrTran->getAccIDOne()
+        ptrClient->withdraw(ptrTran->getDeliveredAccID()
             , ptrTran->getAmount());
     }
 
@@ -207,13 +207,13 @@ void Manager::withdrawHelper(Transaction *ptrTran) {
 }
 
 // display transactions end of the day
-void Manager::displayReport() const
+void Manager::report()
 {
     // error transaction
-    displayError();
+    invalidTransactions();
 
     // report summary
-    displaySummary();
+    accountSummary();
 }
 
 // display invalid transaction
