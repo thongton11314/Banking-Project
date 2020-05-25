@@ -2,33 +2,22 @@
 
 //----------------------------------------------------------------------------
 // constructor
-// constructs things
+// initialize transaction to default number, which is 0
 Transaction::Transaction() {
-    
-    //Nothing?
+
+    // initialize transaction information
+    deliveredClientID = -1;
+    receivedClientID = -1;
+    deliveredAccID = -1;
+    receivedAccID = -1;
+    amount = -1;
+    transType = -1;
 }
 
 //----------------------------------------------------------------------------
 // destructor
 // used after each function to deallocate memory
-Transaction::~Transaction() {
-
-    //Nothing
-}
-
-//----------------------------------------------------------------------------
-// copy constructor
-// makes a perfect copy of the inputed Transaction object
-Transaction::Transaction(const Transaction& other) {
-    
-    //copy all attributes over
-    clientIDOne = other.clientIDOne;
-    clientIDTwo = other.clientIDTwo;
-    AccIDOne = other.AccIDOne;
-    AccIDTwo = other.AccIDTwo;
-    amount = other.amount;
-    transType = other.transType;
-}
+Transaction::~Transaction() {}
 
 //----------------------------------------------------------------------------
 // setData
@@ -39,42 +28,46 @@ bool Transaction::setData(ifstream& input) {
 }
 
 //----------------------------------------------------------------------------
-// getClientIDOne
-// retrieves the ID of Client One
-int Transaction::getClientIDOne() const {
+// getClientDeliveredID
+// retrieves the ID of delivered client
+int Transaction::getDeliveredClientID() const {
 
-    return clientIDOne;
+    return deliveredClientID;
 }
 
 //----------------------------------------------------------------------------
-// getClientIDTwo
-// retrieves the ID of Client Two
-int Transaction::getClientIDTwo() const {
-    
-    return clientIDTwo;
+// getClientReceivedID
+// retrieves the ID of delivered client
+int Transaction::getReceivedClientID() const {
+    return receivedClientID;
 }
 
 //----------------------------------------------------------------------------
-// getAccIDOne
-// retrieves the account number
-int Transaction::getAccIDOne() const {
+// getAccDeliveredID
+// retrieves the delivered account ID
+int Transaction::getDeliveredAccID() const {
 
-    return AccIDOne;
+    return deliveredAccID;
 }
 
 //----------------------------------------------------------------------------
-// getAccIDTwo
-// retrieves the account number
-int Transaction::getAccIDTwo() const {
-    
-    return AccIDTwo;
+// getAccReceivedID
+// retrieves the received account ID
+int Transaction::getReceivedAccID() const {
+    return receivedClientID;
+}
+
+//----------------------------------------------------------------------------
+// getAccReceivedID
+// retrieves the received account ID
+int Transaction::getReceivedAccID() const {
+    return receivedAccID;
 }
 
 //----------------------------------------------------------------------------
 // getTranType
 // retrieves the transaction type
 char Transaction::getTranType() const {
-    
     return transType;
 }
 
@@ -82,20 +75,5 @@ char Transaction::getTranType() const {
 // getAmount
 // retrieves the amount that the transaction is handling
 int Transaction::getAmount() const {
-    
     return amount;
 }
-
-// ----------------------------------------------------------------------------
-// assignment operator
-// returns a copy of the Transaction object
-Transaction& Transaction::operator=(const Transaction& trans) {
-    
-    //feed into copy constructor
-    Transaction temp(trans);
-
-    return temp; //compiler warning about *this?
-}
-
-
-
