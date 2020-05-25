@@ -18,9 +18,9 @@ public:
     LOSEAccount();
     ~LOSEAccount();
     bool setStartBalance(int);       // set start ballance
-    bool adjustBalance(int);         // use for adjust current balance
+    bool adjustBalance(int);         // use for adjust final balance
     int getStartBalance() const;     // get start balance
-    int getFinalBalance() const;   // return balance of the account
+    int getFinalBalance() const;     // return balance of the account
     bool isBalanceZero() const;      // check if the account has no money
 
     // copy operator
@@ -39,4 +39,4 @@ private:
     int finalBalance;
 };
 
-#endif // !_LOSE_ACCOUNT_s
+#endif // !_LOSE_ACCOUNT_

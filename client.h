@@ -2,8 +2,10 @@
 #ifndef CLIENT
 #define CLIENT
 #include <fstream>
+#include <string>
+#include <iomanip>
 #include "loseAccount.h"
-#include "queue.h"
+//#include "queue.h"
 
 using namespace std;
 
@@ -22,13 +24,14 @@ using namespace std;
 //      3: Short-Term Bond      8: Value Fund
 //      4: 500 Index Fund       9: Value Stock Index
 //
-//   -- Client ID is limited, cannot exceed 9999
+//   -- Client ID is limited, cannot bellow 0 and exceed 9999.
+//   -- The account of client can never be negative.
 //
 //---------------------------------------------------------------------------
 
+const int MINID = 1000;
 const int MAXID = 9999;
 const int MAXACCOUNT = 10;
-const int MAXLENGTH = 25;
 
 class Client {
 
@@ -37,18 +40,18 @@ class Client {
 
 public:
 
-    // default constructor
-    Client(char[MAXLENGTH] = 0, char[MAXLENGTH] = 0, int = 0);
-    ~Client();                           // deconstuctor      
-    Client(const Client&);               // copy constructor
-    void setClientId(int);               // set account id
-    bool setData(ifstream&);             // fill object with data from f
-    void deposit(int, double);           // deposit accounts
-    void withdraw(int, double);          // withdraw accounts
-    int getClientId() const;             // get account id
-    void addHistory(const Transaction&); // add transaction history
-    void displayAllHistory() const;      // display all transaction
-    
+    Client();                       // constructor
+    ~Client();                      // deconstuctor  
+    Client(const Client&);          // copy constructor
+    void setId(int);                // set account id
+    bool setData(ifstream&);        // fill object with data from f
+    bool deposit(int, int);         // deposit LOSE account
+    bool withdraw(int, int);        // remove LOSE account
+    int getId() const;        // get account id
+    int getStartBalance(int) const; // get start balance
+    int getFinalBalance(int) const; // get final balance
+    //void addHistory(Transaction*);// add transaction history
+
     // copy operator
     Client& operator=(const Client&);
 
@@ -61,11 +64,10 @@ public:
     bool operator!=(const Client&) const;
 
 private:
-    char firstName[MAXLENGTH];           // client first name
-    char lastName[MAXLENGTH];            // client last name
-    int clientID;                        // client ID
-    LOSEAccount loseAccount[10];         // holding ten Lot of saving account
-    Queue historyContainer;              // hold client transaction history
+    string firstName;               // client first name
+    string lastName;                // client last name
+    int clientID;                   // client ID
+    LOSEAccount loseAccount[10];    // holding ten Lot of saving account
+    //Queue historyContainer;         // hold client transaction history
 };
 #endif // !CLIENT
-
