@@ -38,40 +38,22 @@ class Transaction {
     friend ostream& operator<<(ostream &, const Transaction&);
 
 public:
-
-    // default constructor
-    Transaction();
-    ~Transaction();
-    Transaction(const Transaction&);      // copy constructor
-    bool setData(ifstream&);              // fill transaction data from file
-    bool deposit(int, int);            // deposits amount into account
-    bool withdraw(int, int);           // withdraws amount from account
-    bool move(int, int, int);          // transfers amount to new account
-    int getClientIDOne() const;
-    int getClientIDTwo() const;
-    int getAccIDOne() const;              // deliver account
-    int getAccIDTwo() const;              // receiver account
-    char getTranType() const;             // retrives transaction type
-    int getAmount() const;             // retrieves amount of money
-
-    // copy operator
-    Transaction& operator=(const Transaction&);
-
-    // comparison operators 
-    bool operator<(const Transaction&) const;
-    bool operator<=(const Transaction&) const;
-    bool operator>(const Transaction&) const;
-    bool operator>=(const Transaction&) const;
-    bool operator==(const Transaction&) const;
-    bool operator!=(const Transaction&) const;
+    Transaction();                    // constructor
+    ~Transaction();                   // deconstructor
+    bool setData(ifstream&);          // fill transaction data from file
+    int getDeliveredClientID() const; // retrieve deliver ID
+    int getReceivedClientID() const;  // retrieve receiver ID
+    int getDeliveredAccID() const;    // retrieve deliver account
+    int getReceivedAccID() const;     // retrieve receiver account
+    char getTranType() const;         // retrieves transaction type
+    int getAmount() const;            // retrieves amount of money
 
 private:
-    int clientIDOne;
-    int clientIDTwo;
-    int AccIDOne;             // use for account id
-    int AccIDTwo;              // use for account id incase for move
-    int amount;                  // amount of money
-    char transType;                 // store as deposit, withdraw, move
+    int deliveredClientID;            // deliver ID
+    int receivedClientID;             // receiver ID
+    int deliveredAccID;               // account of deliver
+    int receivedAccID;                // account of reciever
+    int amount;                       // amount of money
+    char transType;                   // store as deposit, withdraw, move
 };
 #endif // !_TRANSACTION_
-
