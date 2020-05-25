@@ -26,9 +26,8 @@ using namespace std;
 //          D buy shares, i.e., deposit funds
 //          W sell shares, i.e., withdraw funds
 //          M move assets between funds / clients
-//   -- If transaction is type of move:
-//          accountIDOne will hold id of taken account
-//          accountIDTwo will hold id of recieve account
+//   -- The data of the transaction will be given by setData function
+//      , which there has no set data. Datas will be assign by ifstream
 //
 //---------------------------------------------------------------------------
 
