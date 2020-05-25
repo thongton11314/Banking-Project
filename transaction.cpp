@@ -22,9 +22,22 @@ Transaction::~Transaction() {}
 //----------------------------------------------------------------------------
 // setData
 // sets all the values
-bool Transaction::setData(ifstream& input) {
+// return true, valid typy of transaction
+// return false, invalid type of transaction
+bool Transaction::setData(ifstream& inFile) {
 
-    //NOT DONE
+    inFile >> transType;
+    if (transType == 'M') {
+        inFile >> deliveredAccID >> amount >> receivedClientID;
+        return true;
+    }
+    else if (transType == 'D' || transType == 'W') {
+        inFile >> deliveredAccID >> amount;
+        receivedAccID = deliveredAccID;
+        return true;
+    }
+    else
+        return false;
 }
 
 //----------------------------------------------------------------------------
@@ -72,8 +85,16 @@ int Transaction::getAmount() const {
 }
 
 ostream & operator<<(ostream &output, const Transaction & obj) {
-    output << obj.transType << setw(2)
-        << obj.deliveredAccID << setw(2)
-        << obj.amount << endl;
+    if (obj.getTranType() == 'M') {
+        output << obj.transType << setw(2)
+            << obj.deliveredAccID << setw(2)
+            << obj.amount << setw(2)
+            << obj.receivedAccID << endl;
+    }
+    else {
+        output << obj.transType << setw(2)
+            << obj.deliveredAccID << setw(2)
+            << obj.amount << endl;
+    }
     return output;
 }
