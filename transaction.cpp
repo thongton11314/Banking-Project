@@ -58,13 +58,6 @@ int Transaction::getReceivedAccID() const {
 }
 
 //----------------------------------------------------------------------------
-// getAccReceivedID
-// retrieves the received account ID
-int Transaction::getReceivedAccID() const {
-    return receivedAccID;
-}
-
-//----------------------------------------------------------------------------
 // getTranType
 // retrieves the transaction type
 char Transaction::getTranType() const {
@@ -76,4 +69,11 @@ char Transaction::getTranType() const {
 // retrieves the amount that the transaction is handling
 int Transaction::getAmount() const {
     return amount;
+}
+
+ostream & operator<<(ostream &output, const Transaction & obj) {
+    output << obj.transType << setw(2)
+        << obj.deliveredAccID << setw(2)
+        << obj.amount << endl;
+    return output;
 }
