@@ -16,7 +16,8 @@ public:
     
     // retrieve object, first parameter is object to retrieve
     // second parameter holds pointer to found object, nullptr if not found
-    bool retrieve(const Client&, Client*&) const;
+    Client retrieve(int) const;
+    Client retrieveHelper(int, Client*&) const;
     void display() const;            //displays the contents of a tree to cout
     void makeEmpty();                //empties the current tree, deallocates all memory
     bool isEmpty() const;            //returns true if tree is empty

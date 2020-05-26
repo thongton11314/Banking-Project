@@ -34,3 +34,32 @@ bool BSTree::insert(Client* dataptr) {
    }
    return true;
 }
+
+Client retrieve(int acc) const {
+    if(root.getID() == acc) {
+        
+        return root;
+    }
+    else {
+        return retrieveHelper(acc, root);
+    }
+}
+
+Client retrieveHelper(int acc, Client*& ptr) const {
+    if (ptr.getID() == data.getID()) {
+        return ptr.data;
+    }
+    if(root->left != nullptr && root->left != nullptr) {
+        retrieveHelper(acc, root->left);
+        retrieveHelper(acc, root->right);
+    }
+    else if (root->left != nullptr) {
+        retrieveHelper(acc, root->left);
+    }
+    else if (root->left != nullptr) {
+        retrieveHelper(acc, root->right);
+    }
+    else {
+        return nullptr;
+    }
+}
