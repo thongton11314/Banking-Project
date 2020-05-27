@@ -13,7 +13,7 @@ int main() {
     // instantiate file stream for setting data
     ifstream clientFile("lab5data.txt"), 
         transactionFile("lab5command.txt");
-    
+
     // reads all client information from text file
     bank.buildClients(clientFile);
 
@@ -22,7 +22,7 @@ int main() {
 
     // process all transaction from file
     bank.processTransactions();
-
+    
     //display history of client
-    bank.displayReport();
+    bank.report();
 }

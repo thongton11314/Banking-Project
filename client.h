@@ -5,7 +5,7 @@
 #include <string>
 #include <iomanip>
 #include "loseAccount.h"
-//#include "queue.h"
+#include "queue.h"
 
 using namespace std;
 
@@ -29,9 +29,10 @@ using namespace std;
 //
 //---------------------------------------------------------------------------
 
-const int MINID = 1000;
-const int MAXID = 9999;
-const int MAXACCOUNT = 10;
+const int MINID = 1;        // smallest id
+const int MAXID = 9999;     // highest id
+const int MAXACCOUNT = 10;  // maximum number of accounts
+const int CONVERTED = 10; // convert account id 5 digit into 1 digit
 
 class Client {
 
@@ -47,10 +48,10 @@ public:
     bool setData(ifstream&);        // fill object with data from f
     bool deposit(int, int);         // deposit LOSE account
     bool withdraw(int, int);        // remove LOSE account
-    int getId() const;        // get account id
+    int getId() const;              // get account id
     int getStartBalance(int) const; // get start balance
     int getFinalBalance(int) const; // get final balance
-    //void addHistory(Transaction*);// add transaction history
+    void addHistory(Transaction*);// add transaction history
 
     // copy operator
     Client& operator=(const Client&);
@@ -64,10 +65,10 @@ public:
     bool operator!=(const Client&) const;
 
 private:
-    string firstName;               // client first name
-    string lastName;                // client last name
-    int clientID;                   // client ID
-    LOSEAccount loseAccount[10];    // holding ten Lot of saving account
-    //Queue historyContainer;         // hold client transaction history
+    string firstName;                   // client first name
+    string lastName;                    // client last name
+    int clientID;                       // client ID
+    LOSEAccount loseAccount[MAXACCOUNT];// holding ten Lot of saving account
+    Queue historyContainer;             // hold client transaction history
 };
 #endif // !CLIENT

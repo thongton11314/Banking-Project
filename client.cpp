@@ -21,12 +21,13 @@ void Client::setId(int id) {
     clientID = id;
 }
 
+// false if client ID is less than 1 or exceed 9999
 bool Client::setData(ifstream & inFile) {
 
     // set up first name, last name, id
     inFile >> lastName >> firstName >> clientID;
 
-    // early exit if client id is not in range 1000-9999
+    // early exit if client id is not in range 1-9999
     if (clientID < MINID || clientID > MAXID)
         return false;
 
@@ -41,7 +42,7 @@ bool Client::setData(ifstream & inFile) {
         inFile >> amount;
 
         // valid amount that positive balance
-        if (amount > 0)
+        if (amount >= 0)
             loseAccount[i].setStartBalance(amount);
 
         // invalid amount that negative balance
@@ -55,19 +56,32 @@ bool Client::setData(ifstream & inFile) {
 
 bool Client::deposit(int accIndex, int val) {
 
-    if (accIndex < MAXACCOUNT) {
-        loseAccount[accIndex].adjustBalance(+val);
-        return true;
+    // convert into tenth account by get last digit
+    accIndex = accIndex % CONVERTED;
+    if (accIndex >= 0 && accIndex < MAXACCOUNT) {
+        return loseAccount[accIndex].adjustBalance(+val);
     }
+
+    // account out of bounce
     return false;
 }
 
 bool Client::withdraw(int accIndex, int val) {
 
-    if (accIndex < MAXACCOUNT) {
-        loseAccount[accIndex].adjustBalance(+val);
-        return true;
+    // convert into tenth account by get last digit
+    accIndex = accIndex % CONVERTED;
+    if (accIndex > 0 && accIndex < MAXACCOUNT) {
+
+        // sufficient fund
+        if (loseAccount[accIndex].adjustBalance(-val))
+            return true;
+        
+        // unsufficient fund
+        else
+            return false;
     }
+
+    // account out of bounce
     return false;
 }
 
@@ -83,11 +97,9 @@ int Client::getFinalBalance(int accIndex) const {
     return loseAccount[accIndex].getFinalBalance();
 }
 
-/*
 void Client::addHistory(Transaction * obj) {
     historyContainer.enqueue(obj);
 }
-*/
 
 Client & Client::operator=(const Client & other) {
 
@@ -132,9 +144,28 @@ ostream & operator<<(ostream& output, const Client& obj)
     // print last name, first name, client id
     output << obj.lastName << " "
         << obj.firstName << " "
-        << obj.clientID << " ";
+        << obj.clientID
+        << endl;
 
-    // print out final account balance
+    output << " Start balance:";
+    // print out start account balance
+    for (int i = 0; i < MAXACCOUNT; i++) {
+
+        // count how many digit for setwidth
+        int n = obj.loseAccount[i].getStartBalance();
+        int count = 0;
+        n < 10 ? ++count : count;
+        while (n != 0) {
+            n = n / 10;
+            ++count;
+        }
+
+        output << setw(count + 1) << obj.loseAccount[i].getStartBalance();
+    }
+    output << endl;
+
+    output << " Final balance:";
+    // print out current account balance
     for (int i = 0; i < MAXACCOUNT; i++) {
 
         // count how many digit for setwidth
@@ -148,6 +179,7 @@ ostream & operator<<(ostream& output, const Client& obj)
 
         output << setw(count + 1) << obj.loseAccount[i].getFinalBalance();
     }
+
     output << endl;
     return output;
 }

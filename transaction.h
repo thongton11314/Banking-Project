@@ -2,6 +2,7 @@
 #ifndef _TRANSACTION_
 #define _TRANSACTION_
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -38,14 +39,19 @@ class Transaction {
 
 public:
     Transaction();                    // constructor
+    Transaction(const Transaction &); // copy constructor
     ~Transaction();                   // deconstructor
     bool setData(ifstream&);          // fill transaction data from file
+    void setSufficient(bool);         // use incase insufficient funds
+    void setUnknownClient(bool);      // use incase errror unknown client
     int getDeliveredClientID() const; // retrieve deliver ID
     int getReceivedClientID() const;  // retrieve receiver ID
     int getDeliveredAccID() const;    // retrieve deliver account
     int getReceivedAccID() const;     // retrieve receiver account
     char getTranType() const;         // retrieves transaction type
     int getAmount() const;            // retrieves amount of money
+    bool isSufficient() const;        // check transaction is sufficient
+    bool isUnknownClient() const;     // check if unknown client
 
 private:
     int deliveredClientID;            // deliver ID
@@ -53,6 +59,8 @@ private:
     int deliveredAccID;               // account of deliver
     int receivedAccID;                // account of reciever
     int amount;                       // amount of money
+    bool sufficient;                  // use to check if sufficient fund
+    bool unknownClient;               // use to check if unknown client
     char transType;                   // store as deposit, withdraw, move
 };
 #endif // !_TRANSACTION_

@@ -1,28 +1,52 @@
 #include "queue.h"
-#include <cassert>
 
-// note -- destructor, copy constructor, clear, isFull are missing
-//      -- subject to typos
-
-//------------------------------ constructor ---------------------------------
+// constructor
+// initialize queue
 Queue::Queue() {
-    front = rear = NULL;
+
+    // front is rear at the begining
+    front = rear = nullptr;
 }
 
-//------------------------------ isEmpty -------------------------------------
-// check to see if queue is empty
+// deconstructor
+// deallocate memory
+Queue::~Queue() {
+    clear();
+}
+
+// clear
+// delete each node carefully since allocate them
+void Queue::clear() {
+
+    // keep deleting if queue still has datas
+    while (front != nullptr) {
+
+        // using for next node
+        Node* temp = front;
+        front = front->next;
+
+        // delete node
+        delete temp->data;
+        delete temp;
+        temp = nullptr;
+    }
+
+    // always set null pointer when done
+    front = rear = nullptr;
+}
+
 bool Queue::isEmpty() const {
-    return (front == NULL);
+    return (front == nullptr);
 }
 
-//------------------------------ enqueue -------------------------------------
+// enqueue
 // insert item into rear of queue
-bool Queue::enqueue(Transaction* dataptr) {
+bool Queue::enqueue(Transaction * dataptr) {
 
     Node* nodeptr = new Node;
-    assert(nodeptr != NULL);
+    assert(nodeptr != nullptr);
     nodeptr->data = dataptr;
-    nodeptr->next = NULL;
+    nodeptr->next = nullptr;
 
     // link at front if empty, otherwise at the rear
     if (isEmpty())
@@ -33,9 +57,9 @@ bool Queue::enqueue(Transaction* dataptr) {
     return true;
 }
 
-//---------------------------------- dequeue ---------------------------------
+// dequeue
 // remove item from front of queue
-bool Queue::dequeue(Transaction*& dataptr) {
+bool Queue::dequeue(Transaction *& dataptr) {
     if (isEmpty())
         return false;
 
@@ -43,19 +67,18 @@ bool Queue::dequeue(Transaction*& dataptr) {
     Node* nodeptr = front;
     front = front->next;
     if (isEmpty())
-        rear = NULL;                   // if it's the last node in list
+        rear = nullptr;                   // if it's the last node in queue
     delete nodeptr;
-    nodeptr = NULL;
+    nodeptr = nullptr;
     return true;
 }
 
-//---------------------------------- peek ------------------------------------
-// return item at front of queue
-bool Queue::peek(Transaction*& dataptr) const {
+// peak
+// retrieve item at front of queue
+bool Queue::peek(Transaction *& dataptr) const {
     if (isEmpty())
         return false;
 
     dataptr = front->data;
     return true;
 }
-

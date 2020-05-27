@@ -2,6 +2,7 @@
 #ifndef HISTORY_AND_TRANSACTION_CONTAINER
 #define HISTORY_AND_TRANSACTION_CONTAINER
 #include <ostream>
+#include <assert.h>
 #include "transaction.h"
 
 // Asumption?
@@ -10,12 +11,23 @@
 using namespace std;
 
 class Queue {
-    friend ostream &operator<<(ostream&, const Queue&);
+
+    // g++ has problems with friend template functions and class templates
+    // so put the code for operator<< here, in the class definition
+    // output operator for class queue, print data, 
+    // responsibility for output is left to object stored in the queue
+    friend ostream &operator<<(ostream & output, const Queue & obj) {
+        Queue::Node* current = obj.front;
+        while (current != nullptr) {
+            output << *current->data << endl;
+            current = current->next;
+        }
+        return output;
+    }
 
 public:
     Queue();                        // default constructor
     ~Queue();                       // destructor
-    Queue(const Queue&);            // copy constructor
     void clear();                   // clear out queue
     bool isEmpty() const;           // is the queue empty?
 
@@ -27,7 +39,6 @@ public:
 
     // retrieve item, parameter is item at top, return whether item exists
     bool peek(Transaction*&) const;
-
 private:
     struct Node {
         Transaction* data;          // pointer to actual data stored

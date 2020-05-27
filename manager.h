@@ -16,7 +16,7 @@ public:
     void buildClients(ifstream &);          // add clients from file
     void buildTransactions(ifstream &);     // add transaction commands file
     void processTransactions();             // process all transactions
-    void displayReport() const;             // display report of the day
+    void report();                          // get report of the day
 
 private:
     BSTree clientContainer;                 // hold a client container
@@ -25,8 +25,9 @@ private:
     void moveHelper(Transaction*);          // perform move
     void depositHelper(Transaction*);       // perform deposit
     void withdrawHelper(Transaction*);      // perform withdraw
-    void invalidTransactions();             // show invalid transactions 
-    void accountSummary();                  // show accounts summary
+    void invalidTransactions();             // show invalid transactions
+    void clientSummary();                   // show accounts summary
+    void clientsReport();                   // show all client infor and account
 };
 
 #endif // !MANAGER

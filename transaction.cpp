@@ -12,6 +12,20 @@ Transaction::Transaction() {
     receivedAccID = -1;
     amount = -1;
     transType = -1;
+    sufficient = false;
+}
+
+//----------------------------------------------------------------------------
+// copy constructor
+// this transaction will be identical as copied transaction
+Transaction::Transaction(const Transaction & other) {
+    deliveredClientID = other.deliveredClientID;
+    receivedClientID =  other.receivedClientID;
+    deliveredAccID = other.deliveredAccID;
+    receivedAccID = other.receivedAccID;
+    amount = other.amount;
+    transType = other.transType;
+    sufficient = other.sufficient;
 }
 
 //----------------------------------------------------------------------------
@@ -24,20 +38,51 @@ Transaction::~Transaction() {}
 // sets all the values
 // return true, valid typy of transaction
 // return false, invalid type of transaction
-bool Transaction::setData(ifstream& inFile) {
+bool Transaction::setData(ifstream& infile) {
 
-    inFile >> transType;
-    if (transType == 'M') {
-        inFile >> deliveredAccID >> amount >> receivedClientID;
+    infile >> transType;
+
+    // valid type transaction
+    if (transType == 'M' || transType == 'D' || transType == 'W') {
+        
+        // move
+        if (transType == 'M') {
+            infile >> deliveredAccID >> amount >> receivedAccID;
+        }
+
+        //deposit or withdraw
+        else {
+            infile >> deliveredAccID >> amount;
+            receivedAccID = deliveredAccID;
+        }
+
+        // set up for client ID
+        deliveredClientID = deliveredAccID / 10;
+        receivedClientID = receivedAccID / 10;
+        sufficient = true;
         return true;
     }
-    else if (transType == 'D' || transType == 'W') {
-        inFile >> deliveredAccID >> amount;
-        receivedAccID = deliveredAccID;
-        return true;
-    }
-    else
+
+    // invalid type of transaction
+    else {
+        char next;
+        while (infile.get(next) && next != '\n'); // read until end statement
         return false;
+    }
+}
+
+//----------------------------------------------------------------------------
+// setSufficient
+// to set if transaction is insufficient
+void Transaction::setSufficient(bool set) {
+    sufficient = set;
+}
+
+//----------------------------------------------------------------------------
+// setUnknownClient
+// to set if transaction is unknown client
+void Transaction::setUnknownClient(bool set) {
+    unknownClient = set;
 }
 
 //----------------------------------------------------------------------------
@@ -67,7 +112,7 @@ int Transaction::getDeliveredAccID() const {
 // getAccReceivedID
 // retrieves the received account ID
 int Transaction::getReceivedAccID() const {
-    return receivedClientID;
+    return receivedAccID;
 }
 
 //----------------------------------------------------------------------------
@@ -82,6 +127,20 @@ char Transaction::getTranType() const {
 // retrieves the amount that the transaction is handling
 int Transaction::getAmount() const {
     return amount;
+}
+
+//----------------------------------------------------------------------------
+// isSufficient
+// get information of transaction in case sufficient
+bool Transaction::isSufficient() const {
+    return sufficient;
+}
+
+//----------------------------------------------------------------------------
+// isUnknownClient
+// get information of transaction incase unknown client
+bool Transaction::isUnknownClient() const {
+    return unknownClient;
 }
 
 ostream & operator<<(ostream &output, const Transaction & obj) {
