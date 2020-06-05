@@ -2,31 +2,17 @@
 #ifndef _LOSE_ACCOUNT_
 #define _LOSE_ACCOUNT_
 
-//---------------------------------------------------------------------------
-// LOSEAccount class:  
-//   -- holds the balance of the account
-//   -- sets own balance and returns it
-//
-// Implementation and assumptions:
-//   -- Balance never be negative
-//
-//---------------------------------------------------------------------------
-
 class LOSEAccount {
 
 public:
     LOSEAccount();
     ~LOSEAccount();
-    bool setStartBalance(int);       // set start ballance
-    bool adjustBalance(int);         // use for adjust final balance
-    int getStartBalance() const;     // get start balance
-    int getFinalBalance() const;     // return balance of the account
-    bool isBalanceZero() const;      // check if the account has no money
-
-    // copy operator
+    bool setStartBalance(int);       
+    bool adjustBalance(int);    
+    int getStartBalance() const;   
+    int getFinalBalance() const;     
+    bool isBalanceZero() const;  
     LOSEAccount& operator=(const LOSEAccount&);
-
-    // comparison operators 
     bool operator<(const LOSEAccount&) const;
     bool operator<=(const LOSEAccount&) const;
     bool operator>(const LOSEAccount&) const;
