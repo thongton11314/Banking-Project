@@ -11,24 +11,22 @@ using namespace std;
 class Manager {
 
 public:
-    Manager() {};                           // constructor
-    ~Manager() {};                          // destructor 
-    void buildClients(ifstream &);          // add clients from file
-    void buildTransactions(ifstream &);     // add transaction commands file
-    void processTransactions();             // process all transactions
-    void report();                          // get report of the day
+    Manager() {};   
+    ~Manager() {};                      
+    void buildClients(ifstream &);       
+    void buildTransactions(ifstream &);   
+    void processTransactions();   
+    void report();                    
 
 private:
-    BSTree clientContainer;                 // hold a client container
-    Queue transactionContainer;             // hold all transaction container
-    Queue invalidTransactionContainer;      // hold invalid transaction
-    void moveHelper(Transaction*);          // perform move
-    void depositHelper(Transaction*);       // perform deposit
-    void withdrawHelper(Transaction*);      // perform withdraw
-    void invalidTransactions();             // show invalid transactions
-    void clientSummary();                   // show accounts summary
-    void clientsReport();                   // show all client infor and account
+    BSTree clientContainer;               
+    Queue transactionContainer;           
+    Queue invalidTransactionContainer;    
+    void moveHelper(Transaction*);      
+    void depositHelper(Transaction*);    
+    void withdrawHelper(Transaction*);   
+    void invalidTransactions();          
+    void clientSummary();              
+    void clientsReport();  
 };
-
 #endif // !MANAGER
-
