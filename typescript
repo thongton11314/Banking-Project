@@ -1,0 +1,105 @@
+Script started on Fri 05 Jun 2020 11:02:17 PM PDT
+]0;tonthong@csslab1:~/assignment5[?1034h[tonthong@csslab1 assignment5]$ g++ -std=c++11 loseAccount.cpp client.cpp transa ction.cpp queue.cpp bst.cpp manager.cpp main.cpp
+]0;tonthong@csslab1:~/assignment5[tonthong@csslab1 assignment5]$ valgrind ./a.out
+==17244== Memcheck, a memory error detector
+==17244== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17244== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==17244== Command: ./a.out
+==17244== 
+HISTORY
+- Client: mouse mickey 1234
+  Type      Amount     Detail
+  --------  ---------  ------------------------------------
+  Deposit   $     100  to Prime Money Market
+  Move      $    1000  from Prime Money Market
+                       to Long-Term Bond of client ID:3000
+  Deposit   $     500  to Long-Term Bond
+  Withdraw  $      20  from Money Market
+
+HISTORY
+- Client: mouse minnie 3000
+  Type      Amount     Detail
+  --------  ---------  ------------------------------------
+  Deposit   $    1000  to Long-Term Bond
+  Deposit   $    1000  to Long-Term Bond
+  Move      $     300  from Prime Money Market
+                       to Money Market of client ID:6000
+  Move      $     500  from Prime Money Market
+                       to Long-Term Bond of client ID:1234
+  Withdraw  $    5000  from Prime Money Market
+  Withdraw  $     100  from Money Market
+  Withdraw  $     100  from Money Market
+  Deposit   $    1000  to Capital Value Fund
+  Withdraw  $    1000  from Capital Value Fund
+  Withdraw  $      20  from Prime Money Market
+
+ERROR:
+- Invalid transaction:
+  Cannot define type 'Z' transaction
+- Insufficient transaction:
+  Cannot withdraw from Money Market of client ID: 6666
+  Cannot withdraw from Money Market of client ID: 6666
+  Cannot withdraw from Prime Money Market of client ID: 6666
+- Unknown client:
+  Cannot defined client 9999
+  Cannot defined client 1000 or 1234
+  Cannot defined client 1111 or 9999
+  Cannot defined client 9999
+
+REPORT
+- Client Id: 1111   sammy  spider
+  Initial balance:  4000   500     0     0     0     0     0     0     0     0
+  Final balance:    4000   500     0     0     0     0     0     0     0     0
+
+- Client Id: 1234   mickey  mouse
+  Initial balance: 20500  1000     0     0     0     0   500     0     0     0
+  Final balance:   20480   100   500     0     0     0   500     0     0     0
+
+- Client Id: 2222   donald  duck
+  Initial balance: 10000   500     0     0     0     0     0     0     0     0
+  Final balance:   10000   500     0     0     0     0     0     0     0     0
+
+- Client Id: 2500   freddie  frog
+  Initial balance: 38000  3000     0     0  2000     0     0     0     0     0
+  Final balance:   38000  3000     0     0  2000 10000     0     0     0     0
+
+- Client Id: 3000   minnie  mouse
+  Initial balance: 35000  2000 50000   400     0     0  4000     0     0  3000
+  Final balance:   30980     0 52000   400     0     0  4000     0     0  3000
+
+- Client Id: 4200   bertha  bear
+  Initial balance:  8000  1000     0     0     0     0     0     0     0     0
+  Final balance:    8275  1000     0     0     0     0     0     0     0     0
+
+- Client Id: 5555   daffy  duck
+  Initial balance:  4500   500     0     0     0     0     0     0     0     0
+  Final balance:     100     0     0     0     0     0     0     0     0     0
+
+- Client Id: 6000   porky  pig
+  Initial balance: 30000  1000     0     0     0     0     0     0     0     0
+  Final balance:   30300  8000     0     0     0     0     0     0     0     0
+
+- Client Id: 6666   darrell  donkey
+  Initial balance:    10   100     0     0  1000     0     0     0     0     0
+  Final balance:      30   100     0     0  1000     0     0     0     0     0
+
+- Client Id: 7000   wicked  witch
+  Initial balance:  5000   300     0     0   500     0     0     0     0     0
+  Final balance:    5000   300     0     0   500     0     0     0     0     0
+
+- Client Id: 8888   larry  lizard
+  Initial balance:  4500  2000     0     0     0     0     0     0     0     0
+  Final balance:    4500  2000     0     0     0     0     0     0     0     0
+
+==17244== 
+==17244== HEAP SUMMARY:
+==17244==     in use at exit: 0 bytes in 0 blocks
+==17244==   total heap usage: 126 allocs, 126 frees, 94,200 bytes allocated
+==17244== 
+==17244== All heap blocks were freed -- no leaks are possible
+==17244== 
+==17244== For counts of detected and suppressed errors, rerun with: -v
+==17244== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+]0;tonthong@csslab1:~/assignment5[tonthong@csslab1 assignment5]$ [K[tonthong@csslab1 assignment5]$ exit
+
+Script done on Fri 05 Jun 2020 11:03:01 PM PDT

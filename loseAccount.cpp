@@ -1,23 +1,34 @@
 #include "loseAccount.h"
 
+//----------------------------------------------------------------------------
+// constructor
+// initialize both balance zero
 LOSEAccount::LOSEAccount() {
-    finalBalance = 0;
-    startBalance = 0;
+    initialBalance = finalBalance = 0;
 }
 
+//----------------------------------------------------------------------------
+// destructor
+// deallocate memory
 LOSEAccount::~LOSEAccount() {}
 
-bool LOSEAccount::setStartBalance(int val) {
+//----------------------------------------------------------------------------
+// setInitialBalance
+// sets the initial value of an account
+bool LOSEAccount::setInitialBalance(int val) {
 
     //controls for negative values
     if (val < 0) {
-        startBalance = finalBalance = 0;
+        initialBalance = finalBalance = 0;
         return false;
     }
-    startBalance = finalBalance = val;
+    initialBalance = finalBalance = val;
     return true;
 }
 
+//----------------------------------------------------------------------------
+// adjustBalance
+// adjusts the currentBalance value
 bool LOSEAccount::adjustBalance(int val) {
 
     //controls for negative output
@@ -28,74 +39,27 @@ bool LOSEAccount::adjustBalance(int val) {
     return true;
 }
 
-
-int LOSEAccount::getStartBalance() const {
-
-    //retrieve
-    return startBalance;
+//----------------------------------------------------------------------------
+// getStartBalance
+// retrieves the starting value of an account
+int LOSEAccount::getInitialBalance() const {
+    return initialBalance;
 }
 
-
+//----------------------------------------------------------------------------
+// getCurrentBalance
+// retrieves the current value of an account
 int LOSEAccount::getFinalBalance() const {
     return finalBalance;
 }
 
+//----------------------------------------------------------------------------
+// isBalanceZero
+// checks if current balance is empty
 bool LOSEAccount::isBalanceZero() const {
 
+    //check for a zero balance
     if (finalBalance == 0) {
-        return true;
-    }
-    return false;
-}
-
-LOSEAccount& LOSEAccount::operator=(const LOSEAccount& acc) {
-    this->startBalance = acc.startBalance;
-    this->finalBalance = acc.finalBalance;
-    return *this;
-}
-
-bool LOSEAccount::operator<(const LOSEAccount& acc) const {
-    if (this->finalBalance < acc.finalBalance) {
-        return true;
-    }
-    return false;
-}
-
-bool LOSEAccount::operator<=(const LOSEAccount& acc) const {
-
-    // compare value of currentBalance
-    if (this->finalBalance <= acc.finalBalance) {
-        return true;
-    }
-    return false;
-}
-
-bool LOSEAccount::operator>(const LOSEAccount& acc) const {
-
-    // compare value of currentBalance
-    if (this->finalBalance > acc.finalBalance) {
-        return true;
-    }
-    return false;
-}
-
-bool LOSEAccount::operator>=(const LOSEAccount& acc) const {
-    if (this->finalBalance >= acc.finalBalance) {
-        return true;
-    }
-    return false;
-}
-
-bool LOSEAccount::operator==(const LOSEAccount& acc) const {
-    if (this->finalBalance == acc.finalBalance) {
-        return true;
-    }
-    return false;
-}
-
-bool LOSEAccount::operator!=(const LOSEAccount& acc) const {
-
-    if (this->finalBalance != acc.finalBalance) {
         return true;
     }
     return false;
